@@ -3,8 +3,8 @@ class Api::UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :creation_error
 
   ## Design comments:
-  ## 1. For index I used a controller -> Model connection
-  ## 2. For Create a pretty common 'Service-oriented' approach
+  ## 1. For #index I used a controller -> Model connection
+  ## 2. For #create I used a pretty common 'Service-oriented' approach
   ## 3. A third option of architechturing the app I like is Uncle bob's clean architechture
   ##    but it's not so common in rails community. Check https://github.com/yukas/clean-blog-rails
 
