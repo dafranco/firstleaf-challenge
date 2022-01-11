@@ -4,25 +4,23 @@ RSpec.describe CreateUserService do
     it 'should call to create! with received params' do
       fake_email = 'fake_email'
       fake_key = 'fake_key'
-      fake_created_user = spy('User', email: fake_email, key: fake_key)
+      fake_created_user = spy('User', id: 123, email: fake_email, key: fake_key)
       fake_user_repo = spy('User', create!: fake_created_user)
       fake_params = {}
 
       CreateUserService.new(fake_user_repo).create_from_params(fake_params)
 
-      expect(fake_created_user).to have_received(:email)
-      expect(fake_created_user).to have_received(:key)
       expect(fake_user_repo).to have_received(:create!).with(fake_params)
     end
 
     it 'should call AccountKeyServiceWorker' do
       fake_email = 'fake_email'
       fake_key = 'fake_key'
-      fake_created_user = spy('User', email: fake_email, key: fake_key)
+      fake_created_user = spy('User', id: 123, email: fake_email, key: fake_key)
       fake_user_repo = spy('User', create!: fake_created_user)
       fake_params = {}
       expect(AccountKeyServiceWorker).to receive(:perform_async)
-        .with(fake_email, fake_key)
+        .with(fake_created_user.id)
 
       CreateUserService.new(fake_user_repo).create_from_params(fake_params)
     end

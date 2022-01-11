@@ -103,7 +103,6 @@ RSpec.describe "Users", type: :request do
         }
 
         expect(AccountKeyServiceWorker).to receive(:perform_async)
-          .with(fake_email, instance_of(String))
 
         post api_users_path, params: user_to_create
 

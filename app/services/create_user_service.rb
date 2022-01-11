@@ -6,7 +6,7 @@ class CreateUserService
 
   def create_from_params(params)
     user = user_repo.create!(params)
-    AccountKeyServiceWorker.perform_async(user.email, user.key)
+    AccountKeyServiceWorker.perform_async(user.id)
     user
   end
 
