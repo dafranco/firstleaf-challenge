@@ -1,0 +1,34 @@
+version: '3'
+networks:
+  first-leaf-dev:
+services:
+  db:
+    image: postgres:12
+    restart: always
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD: 'tester'
+      POSTGRES_USER: 'admin'
+    volumes:
+      - './tmp/database:/var/lib/postgresql/data'
+    networks:
+      - first-leaf-dev
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "3005:3005"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - first-leaf-dev
+  redis:
+    image: redis:6.2.6
+    ports:
+      - "6379:6379"
+    networks:
+    - first-leaf-dev
+
